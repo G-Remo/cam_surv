@@ -1,0 +1,1269 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title id="hote" class="default-action">Titre par défaut</title>
+    <style>
+      body, input, button, textarea, select
+      {
+        transition: 0.5s;
+        font-family: Arial,Helvetica,sans-serif;
+        background-color: #111;
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .dark-mode
+      {
+        transition: 0.5s;
+        color: #111;
+        background-color: #eee;
+      
+        select, input
+        {
+          transition: 0.5s;
+          background-color: #eee;
+          color: #111;
+        }
+        
+        input[type=submit] {
+          transition: 0.5s;
+          color: #fff;
+        }       
+      
+        input[type=range] {
+          transition: 0.5s;
+          -webkit-appearance: none;
+          background: #ddd;
+        }
+      
+        #menu {
+          transition: 0.5s;
+          background: #ddd;
+        }
+      }
+
+      section.main {
+        display: flex
+      }
+
+      #menu,section.main {
+        flex-direction: column
+      }
+
+      #menu {
+        transition: 0.5s;
+        display: none;
+        flex-wrap: nowrap;
+        min-width: 250px;
+        background: #363636;
+        padding: 8px;
+        border-radius: 8px;
+        margin-top: -10px;
+        margin-right: 10px;
+      }
+
+      #content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch
+      }
+
+      figure {
+        padding: 0px;
+        margin: 0;
+        -webkit-margin-before: 0;
+        margin-block-start: 0;
+        -webkit-margin-after: 0;
+        margin-block-end: 0;
+        -webkit-margin-start: 0;
+        margin-inline-start: 0;
+        -webkit-margin-end: 0;
+        margin-inline-end: 0
+      }
+
+      @media (min-width: 10px) and (orientation:landscape) {
+        #content {
+          display:flex;
+          flex-wrap: nowrap;
+          align-items: stretch
+        }
+
+        figure img {
+          max-width: 90%;
+					max-height: 90vh;
+					min-height: 70vh;
+					width: auto;
+					height: auto;
+          display: block;
+          margin: 0 auto;
+          border-radius: 8px;
+          margin-top: 8px;
+          object-fit: contain;
+        }
+
+        figure {
+          padding: 0 0 0 0px;
+          margin: 0;
+          -webkit-margin-before: 0;
+          margin-block-start: 0;
+          -webkit-margin-after: 0;
+          margin-block-end: 0;
+          -webkit-margin-start: 0;
+          margin-inline-start: 0;
+          -webkit-margin-end: 0;
+          margin-inline-end: 0
+        }
+      }
+
+      section#buttons {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between
+      }
+
+      #nav-toggle {
+        cursor: pointer;
+        display: block
+      }
+
+      #nav-toggle-cb {
+        outline: 0;
+        opacity: 0;
+        width: 0;
+        height: 0
+      }
+
+      #nav-toggle-cb:checked+#menu {
+          display: flex
+      }
+
+      .input-group {
+        display: flex;
+        flex-wrap: nowrap;
+        line-height: 24px;
+        margin: 5px 0
+      }
+
+      .input-group>label {
+        display: inline-block;
+        padding-right: 10px;
+        min-width: 40%
+      }
+
+      .input-group input,.input-group select {
+        flex-grow: 1
+      }
+
+      .range-max,.range-min {
+        display: inline-block;
+        padding: 0 5px
+      }
+
+      button {
+        display: block;
+        margin: 5px;
+        padding: 0 12px;
+        border: 0;
+        line-height: 28px;
+        cursor: pointer;
+        background: #ff3034;
+        border-radius: 5px;
+        outline: 0
+      }
+      
+      button:hover {
+        background: #ff494d
+      }
+
+      button:active {
+        background: #f21c21
+      }
+
+      button.disabled {
+        transition: 0.5s;
+        border: none;
+        cursor: default;
+        background: #363636;
+      }
+
+      input[type=submit] {
+        transition: 0.5s;
+        display: block;
+        margin: 5px;
+        padding: 0 12px;
+        border: 0;
+        line-height: 28px;
+        cursor: pointer;
+        background: #ff3034;
+        border-radius: 5px;
+        outline: 0
+      }
+      
+      input[type=submit]:hover {
+        background: #ff494d
+      }
+
+      .save {
+        position: absolute;
+        right: 25px;
+        top: 0px;
+        height: 16px;
+        line-height: 16px;
+        padding: 0 4px;
+        text-decoration: none;
+        cursor: pointer
+      }
+
+      input[type=range] {
+        transition: 0.5s;
+        -webkit-appearance: none;
+        width: 100%;
+        height: 22px;
+        background: #363636;
+        cursor: pointer;
+        margin: 0
+      }
+
+      input[type=range]:focus {
+        outline: 0
+      }
+
+      input[type=range]::-moz-range-track {
+        transition: 0.5s;
+        width: 100%;
+        height: 2px;
+        cursor: pointer;
+        background: #EFEFEF;
+        border-radius: 0;
+        border: 0 solid #EFEFEF
+      }
+
+      input[type=range]::-moz-range-thumb {
+        border: 1px solid rgba(0,0,30,0);
+        height: 22px;
+        width: 22px;
+        border-radius: 50px;
+        background: #ff3034;
+        cursor: pointer
+      }
+
+      .switch {
+        display: block;
+        position: relative;
+        line-height: 22px;
+        height: 22px
+      }
+
+      .switch input {
+        outline: 0;
+        opacity: 0;
+        width: 0;
+        height: 0
+      }
+
+      .slider {
+        width: 50px;
+        height: 22px;
+        border-radius: 22px;
+        cursor: pointer;
+        background-color: grey
+      }
+
+      .slider,.slider:before {
+        display: inline-block;
+        transition: .4s
+      }
+
+      .slider:before {
+        position: relative;
+        content: "";
+        border-radius: 50%;
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        top: 3px;
+        background-color: #fff
+      }
+
+      input:checked+.slider {
+        background-color: #ff3034
+      }
+
+      input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        transform: translateX(26px)
+      }
+
+      select {
+        border: 1px solid #363636;
+        height: 22px;
+        outline: 0;
+        border-radius: 5px
+      }
+
+      .image-container {
+        position: relative;
+        min-width: 10%
+      }
+
+      .close {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        background: #ff3034;
+        width: 16px;
+        height: 16px;
+        border-radius: 100px;
+        text-align: center;
+        line-height: 18px;
+        cursor: pointer
+      }
+
+      .hidden {
+        display: none
+      }
+
+      input[type=text] {
+        transition: 0.5s;
+        text-align: left;
+        border: none;
+        background: none;
+        height: 20px;
+        margin: 1px;
+        outline: none
+      }
+
+      input[type=number] {
+        transition: 0.5s;
+        position: relative;
+        text-align: left;
+        border: none;
+        background: none;
+        height: 20px;
+        margin: 1px;
+        padding: 0;
+        outline: none
+      }
+
+      .inline-button {
+        line-height: 20px;
+        margin: 2px;
+        padding: 1px 4px 2px 4px;
+      }
+
+      label.toggle-section-label {
+        cursor: pointer;
+        display: block
+      }
+
+      input.toggle-section-button {
+        outline: 0;
+        opacity: 0;
+        width: 0;
+        height: 0
+      }
+
+      input.toggle-section-button:checked+section.toggle-section {
+        display: none
+      }
+
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .grid2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .grid1 {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+      }
+    
+      .bottom-right {
+        z-index: 1;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 10px;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="main">
+      <div id="logo">
+          <label for="nav-toggle-cb" id="nav-toggle">&#9776;&nbsp;&nbsp;Param&egrave;tres</label>
+      </div>
+      <div id="content">
+          <div id="sidebar">
+              <input type="checkbox" id="nav-toggle-cb" checked="checked">
+      <nav id="menu">
+        
+        <section id="buttons">
+          <button id="get-still">Photo</button>
+          <button id="toggle_stream">Start Stream</button>
+        </section>
+        <section id="buttons">
+          <button id="get-last">Derniere Photo</button>
+          <button id="photo_telegram" class="default-action">Photo Telegram</button>
+        </section>
+        </br>
+
+        <hr style="width:100%">
+
+        <label for="nav-toggle-info" class="toggle-section-label">&#9776;&nbsp;&nbsp;Info</label><input type="checkbox" id="nav-toggle-info" class="hidden toggle-section-button" checked="checked">
+        <section class="toggle-section">
+
+        <div class="info">
+          <input type="text" id="temp_restant" readonly="true" size="10" class="default-action_vers"><br>
+          Luminosit&eacute: <input type="text" id="luminosite" readonly="true" size="3" class="default-action_vers"><br>
+          FPS: <input type="text" id="fb_fps" readonly="true" size="3" class="default-action_vers"><br>
+          RAM: <input type="text" id="ram" readonly="true" size="6" class="default-action_vers"><br>
+          PSRAM: <input type="text" id="psram" readonly="true" size="6" class="default-action_vers"><br>
+          Pixels d&eacute;tect&eacute;: <input type="text" id="pix_detected" readonly="true" size="3" class="default-action_vers"><br>
+        </div>
+        </section>
+        
+        <hr style="width:100%">
+
+        <div id="zoom_hr-group">
+          <label for="nav-toggle-zoom" class="toggle-section-label">&#9776;&nbsp;&nbsp;Zoom</label><input type="checkbox" id="nav-toggle-zoom" class="hidden toggle-section-button" checked="checked">
+          <section class="toggle-section">
+          
+            <div class="input-group">
+              <label for="zoom">Zoom</label>
+              <div class="range-min">0</div>
+              <input type="range" id="zoom" min="0" max="11" value="0" class="default-action_vers">
+              <div class="range-max">10</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="crop_x">Crop X</label>
+              <div class="range-min">0</div>
+              <input type="range" id="crop_x" min="0" max="12" value="0" class="default-action_vers">
+              <div class="range-max">12</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="crop_y">Crop Y</label>
+              <div class="range-min">0</div>
+              <input type="range" id="crop_y" min="0" max="12" value="0" class="default-action_vers">
+              <div class="range-max">12</div>
+            </div>
+            
+            <div class="input-groups">
+              <label for="zone">Zone</label>
+              <div class="grid3">
+                <button class="disabled"></button>
+                <button id="bouton_h">Haut</button>
+                <button class="disabled"></button>
+                <button id="bouton_g">Gauche</button>
+                <button id="bouton_z">Centre</button>
+                <button id="bouton_d">Droite</button>
+                <button class="disabled"></button>
+                <button id="bouton_b">Bas</button>
+                <button class="disabled"></button>
+              </div>
+            </div>
+
+          </section>
+          
+          <hr style="width:100%">
+
+        </div>
+         
+        <label for="nav-toggle-surv" class="toggle-section-label">&#9776;&nbsp;&nbsp;Surveillance</label><input type="checkbox" id="nav-toggle-surv" class="hidden toggle-section-button" checked="checked">
+        <section class="toggle-section">
+
+          <section id="buttons">
+            <button id="toggle_stream_2">Start Stream Surveillance</button>
+          </section>
+        
+          <div class="input-group">
+            <label for="surv">Detecteur de mouvement</label>
+            <div class="switch">
+              <input id="surv" type="checkbox" class="default-action_vers">
+              <label class="slider" for="surv"></label>
+            </div>
+          </div>
+          
+          <hr style="width:50%">
+          
+          <label for="nav-toggle-detecteur" class="toggle-section-label">&#9776;&nbsp;&nbsp;Detecteur</label><input type="checkbox" id="nav-toggle-detecteur" class="hidden toggle-section-button" checked="checked">
+          <section class="toggle-section">
+          
+            <div class="input-group">
+              <label for="detecteur">Detecteur</label>
+              <div class="switch">
+                <input type="radio" id="detecteur" name="surveillance" value="0" class="default-action" checked>
+                <label class="slider" for="detecteur"></label>
+              </div>
+            </div>
+          
+            <div class="input-group">
+              <label for="seuil_1">Seuil</label>
+              <input type="number" id="seuil_1" min="0" max="255" value="" class="default-action">
+            </div>
+
+            <div class="input-group">
+              <label for="min_pixel_detection">Pixel detection</label>
+              <input type="number" id="min_pixel_detection" min="0" max="7500" value="" class="default-action">
+            </div>
+
+            <div class="input-group">
+              <label for="temps_photo">Intervalle photo</label>
+              <input type="number" id="temps_photo" min="1" max="30" value="" class="default-action">
+            </div>
+          
+          <br>
+      
+          </section>
+          
+          <hr style="width:50%">
+
+          <label for="nav-toggle-couleur" class="toggle-section-label">&#9776;&nbsp;&nbsp;Couleur</label><input type="checkbox" id="nav-toggle-couleur" class="hidden toggle-section-button" checked="checked">
+          <section class="toggle-section">
+          
+          <div class="input-group">
+            <label for="couleur">Couleur</label>
+            <div class="switch">
+              <input type="radio" id="couleur" name="surveillance" value="1" class="default-action">
+              <label class="slider" for="couleur"></label>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="couleur_prev">Couleur Prev</label>
+            <div class="switch">
+              <input type="radio" id="couleur_prev" name="surveillance" value="2" class="default-action">
+              <label class="slider" for="couleur_prev"></label>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="couleur_min">Couleur Min</label>
+            <input type="number" id="couleur_min" min="0" max="65535" value="" class="default-action">
+          </div>
+
+          <div class="input-group">
+            <label for="couleur_max">Couleur Max</label>
+            <input type="number" id="couleur_max" min="0" max="65535" value="" class="default-action">
+          </div>
+
+          <div class="input-group">
+            <label for="couleur_box_x">Box X:</label>
+            <div class="range-min">0</div>
+            <input type="range" id="couleur_box_x" min="0" max="100" value="" class="default-action_vers">
+            <div class="range-max">100</div>
+          </div>
+          
+          <div class="input-group">
+            <label for="couleur_box_y">Box Y:</label>
+            <div class="range-min">0</div>
+            <input type="range" id="couleur_box_y" min="0" max="100" value="" class="default-action_vers">
+            <div class="range-max">100</div>
+          </div>
+          
+          <div class="input-group">
+            <label for="taille_couleur_box">Taille Box</label>
+            <div class="range-min">1</div>
+            <input type="range" id="taille_couleur_box" min="1" max="4" value="" class="default-action_vers">
+            <div class="range-max">4</div>
+          </div>
+
+          <div class="input-group">
+            <label for="couleur_seuil">Seuil couleur</label>
+            <div class="range-min">10</div>
+              <input type="range" id="couleur_seuil" min="10" max="90" value="" class="default-action">
+            <div class="range-max">90</div>
+          </div>
+          
+          <br>
+          </section>
+
+          <hr style="width:50%">
+
+          <label for="nav-toggle-zone" class="toggle-section-label">&#9776;&nbsp;&nbsp;Zone</label><input type="checkbox" id="nav-toggle-zone" class="hidden toggle-section-button" checked="checked">
+          <section class="toggle-section">
+          
+            <div class="input-group">
+              <label for="zone">Zone</label>
+              <div class="switch">
+                <input type="radio" id="zone" name="surveillance" value="3" class="default-action">
+                <label class="slider" for="zone"></label>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="bbox_couleur">Couleur</label>
+              <input type="range" id="bbox_couleur" min="0" max="65535" value="" class="default-action">
+            </div>
+            
+            <div class="input-group">
+              <label for="zones_x">Box X:</label>
+              <div class="range-min">0</div>
+              <input type="range" id="zones_x" min="0" max="100" value="" class="default-action">
+              <div class="range-max">100</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="zones_y">Box Y:</label>
+              <div class="range-min">0</div>
+              <input type="range" id="zones_y" min="0" max="100" value="" class="default-action">
+              <div class="range-max">100</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="zones_w">Box Largeur:</label>
+              <div class="range-min">0</div>
+              <input type="range" id="zones_w" min="0" max="100" value="" class="default-action">
+              <div class="range-max">100</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="zones_h">Box Hauteur:</label>
+              <div class="range-min">0</div>
+              <input type="range" id="zones_h" min="0" max="100" value="" class="default-action">
+              <div class="range-max">100</div>
+            </div>
+          
+          <br>
+                    
+          </section>
+          
+        </section>
+
+        <hr style="width:100%">
+          
+        <label for="nav-toggle-lum" class="toggle-section-label">&#9776;&nbsp;&nbsp;Luminosité</label><input type="checkbox" id="nav-toggle-lum" class="hidden toggle-section-button" checked="checked">
+        <section class="toggle-section">
+        
+          <section id="buttons">
+            <button id="max_fps">Max FPS</button>
+          </section>
+          <section id="buttons">
+            <button id="mode_nuit">Mode Nuit</button>
+            <button id="sombre">Mode Sombre</button>
+          </section>
+          
+          <div class="input-group">
+            <label for="xclk">XCLK(MHz):</label>
+            <input type="number" id="xclk" min="1" max="20" class="default-action_vers">
+          </div>
+          
+          <div class="input-group">
+            <label for="led_intensity">LED</label>
+              <div class="switch">
+                <input id="led_intensity" type="checkbox" class="default-action">
+                <label class="slider" for="led_intensity"></label>
+              </div>
+            </div>
+          
+          <div class="input-group">
+            <label for="gainceiling">Gain Ceiling</label>
+            <div class="range-min">1</div>
+            <input type="range" id="gainceiling" min="0" max="6" value="0" class="default-action_vers">
+            <div class="range-max">7</div>
+          </div>
+          
+        </section>
+        <hr style="width:100%">
+  
+        <label for="nav-toggle-sd_mmc" class="toggle-section-label">&#9776;&nbsp;&nbsp;M&eacute;dia</label><input type="checkbox" id="nav-toggle-sd_mmc" class="hidden toggle-section-button" checked="checked">
+        <section class="toggle-section">
+
+          <section id="buttons">
+            <button id="capture_psram_25" class="default-action">Video 25i</button>
+            <button id="capture_psram_max" class="default-action">Video Max</button>
+          </section>
+
+          <div class="input-group">
+            <label for="envoi_photo">Envoyer Photos Telegram</label>
+            <div class="switch">
+              <input id="envoi_photo" type="checkbox" class="default-action">
+              <label class="slider" for="envoi_photo"></label>
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <label for="envoi_photo">Envoyer Photos Tablette</label>
+            <div class="switch">
+              <input id="envoi_photo_tablette" type="checkbox" class="default-action">
+              <label class="slider" for="envoi_photo_tablette"></label>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="vid_vers_telegram">Video SD vers Telegram</label>
+            <div class="switch">
+              <input id="vid_vers_telegram" type="checkbox" class="default-action_vers">
+              <label class="slider" for="vid_vers_telegram"></label>
+            </div>
+          </div>
+          
+          <hr style="width:50%">
+
+          <section id="buttons">
+            <button id="photo_sd" class="default-action">Photo SD</button>
+          </section>
+          
+          <div class="input-group">
+            <label for="video_sd">Video SD</label>
+            <div class="switch">
+              <input id="video_sd" type="checkbox" class="default-action_vers">
+              <label class="slider" for="video_sd"></label>
+            </div>
+          </div>
+              
+          <div class="input-group">
+            <label> Enrengistrement:</label>
+          </div>
+
+          Heures:&nbsp;<input type="number" id="video_sd_h" min="0" max="48" placeholder="0" class="default-action">
+          Minutes:&nbsp;<input type="number" id="video_sd_m" min="0" max="59" placeholder="0" class="default-action">
+
+          <hr style="width:50%">
+
+          <div class="input-group">
+            <input type="text" id="sd_text" maxlength="4" readonly="true" size="4" value="" class="default-action_vers">
+          </div>
+
+        </section>
+        
+        <hr style="width:100%">
+    
+        <label for="nav-toggle-config" class="toggle-section-label">&#9776;&nbsp;&nbsp;Config</label><input type="checkbox" id="nav-toggle-config" class="hidden toggle-section-button" checked="checked">
+        <section class="toggle-section">
+
+          <div class="input-group">
+            <label for="framesize">Resolution</label>
+            <select id="framesize" class="default-action">
+                <option value="15">UXGA(1600x1200)</option>
+                <option value="14">SXGA(1280x1024)</option>
+                <option value="13">HD(1280x720)</option>
+                <option value="12">XGA(1024x768)</option>
+                <option value="11">SVGA(800x600)</option>
+                <option value="10">VGA(640x480)</option>
+                <option value="9">HVGA(480x320)</option>
+                <option value="8">CIF(400x296)</option>
+                <option value="6">QVGA(320x240)</option>
+                <option value="5">240x240</option>
+                <option value="4">HQVGA(240x176)</option>
+                <option value="3">QCIF(176x144)</option>
+                <option value="2">128x128</option>
+                <option value="1">QQVGA(160x120)</option>
+                <option value="0">96x96</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+              <label for="quality">Quality</label>
+              <div class="range-min">10</div>
+              <input type="range" id="quality" min="10" max="30" value="" class="default-action">
+              <div class="range-max">30</div>
+          </div>
+
+                        
+          <div class="input-group">
+              <label for="hmirror">H-Mirror</label>
+              <div class="switch">
+                  <input id="hmirror" type="checkbox" class="default-action" checked="checked">
+                  <label class="slider" for="hmirror"></label>
+              </div>
+          </div>
+
+          <section id="buttons">
+            <button id="restart">Red&eacute;marrer</button>
+          </section>
+
+        </section>
+        
+        <hr style="width:100%">
+
+          <label for="nav-toggle-credentials" class="toggle-section-label">&#9776;&nbsp;&nbsp;Credentials</label><input type="checkbox" id="nav-toggle-credentials" class="hidden toggle-section-button" checked="checked">
+          <section class="toggle-section">
+           <div class="input-group">
+            <form id="wifiForm">
+                SSID: <input type="text" id="ssid" name="ssid" class="default-action"><br>
+                SSID de secours: <input type="text" id="ssid2" name="ssid2" size="10" class="default-action"><br>
+                Mot de passe: <input type="text" name="password" id="password" class="default-action"><br>
+                Nom: <input type="text" name="hote" id="hote" class="default-action"><br>
+                IP: <input type="text" name="local_ip" id="local_ip" class="default-action"><br>
+                chatID: <input type="text" id="chatID" name="chatID" class="default-action"><br>
+                botToken: <input type="text" id="botToken" name="botToken" class="default-action"><br>
+                IP Tablette: <input type="text" id="ip_tablette" name="ip_tablette" class="default-action"><br>
+                <input type="submit" value="Enregistrer">
+            </form>
+            </div>
+            <div id="responseMsg"></div>
+
+            <section id="buttons">
+              <button id="wifi_reset">R&eacute;init. WiFi</button>
+            </section>
+
+          </section>
+
+      </nav>
+
+          <button onclick="dark_mode()" class="bottom-right">Dark / Light</button>
+
+          </div>
+
+          <figure>
+
+              <div id="stream_container" class="image-container hidden"  >
+                  <div class="close" id="close_stream">1</div>
+                  <img id="stream" src="">
+              </div>
+
+              <div id="stream_container_2" class="image-container hidden"  >
+                <div class="close" id="close_stream_2">2</div>
+                  <img id="stream_2" src="">
+              </div>
+
+              <div id="photo_container" class="image-container hidden">
+                  <div class="close" id="close_photo">P</div>
+                  <img id="photo" src="">
+              </div>
+    
+              <div id="last_container" class="image-container hidden">
+                  <div class="close" id="close_last">L</div>
+                  <img id="last" src="">
+              </div>
+    
+          </figure>
+  
+      </div>
+  
+    </section>
+    <script>
+
+		document.getElementById('wifiForm').addEventListener('submit', function(e) {
+			e.preventDefault(); // Empêche la soumission normale
+
+			const formData = new FormData(this);
+
+			fetch('/setwifi', {
+				method: 'POST',
+				body: new URLSearchParams(formData)
+			})
+			.then(response => response.text())
+			.then(text => {
+				document.getElementById('responseMsg').innerHTML = "Paramètres enregistrés !";
+			})
+			.catch(err => {
+				document.getElementById('responseMsg').innerHTML = "Erreur lors de l'envoi.";
+			});
+		});
+
+    function dark_mode() {
+       var element = document.body;
+       element.classList.toggle("dark-mode");
+    }
+
+    document.addEventListener('DOMContentLoaded', function (event) {
+
+      <!-- const lh = '192.168.1.27' -->
+      const lh = location.host
+      var baseHost = 'http://' + lh
+      var control_url = baseHost + '/control'
+
+      const fetchInterval = setInterval(fetchAndProcessDataVers, 2000);
+
+      function sendData(i, v) {
+        var params = {
+          id: i,
+          value: v
+        };
+      
+        console.log(`Sending data: ${JSON.stringify(params)}`);
+      
+        fetch(control_url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(params)
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Response from server:', data);
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+      }
+
+      function fetchUrl(url, cb){
+        fetch(url)
+          .then(function (response) {
+            if (response.status !== 200) {
+              cb(response.status, response.statusText);
+            } else {
+              response.text().then(function(data){
+                cb(200, data);
+              }).catch(function(err) {
+                cb(-1, err);
+              });
+            }
+          })
+          .catch(function(err) {
+            cb(-1, err);
+          });
+      }
+
+      const hide = el => {
+        el.classList.add('hidden')
+      }
+      const show = el => {
+        el.classList.remove('hidden')
+      }
+      const disable = el => {
+        el.classList.add('disabled')
+        el.disabled = true
+      }
+      const enable = el => {
+        el.classList.remove('disabled')
+        el.disabled = false
+      }
+
+      const updateValue = (el, value, updateRemote = true) => {
+          if (!el) {
+              console.error("Élément DOM invalide.");
+              return;
+          }
+
+          let initialValue;
+
+          if (el.type === 'checkbox') {
+              initialValue = el.checked;
+              value = !!value;
+              el.checked = value;
+          } else if (el.type === 'radio') {
+              initialValue = el.checked;
+              el.checked = (el.value === String(value));
+          } else {
+              initialValue = el.value;
+              el.value = value;
+          }
+
+          if (updateRemote && initialValue !== value) {
+              try {
+                  updateConfig(el);
+              } catch (error) {
+                  console.error("Erreur lors de l'appel à updateConfig:", error);
+              }
+          } else if (!updateRemote) {
+              if (el.id === "framesize") {
+                  const visibleFrames = [8, 11, 15];
+                  if (visibleFrames.includes(Number(value))) {
+                      show(zoom_hr);
+                  } else {
+                      hide(zoom_hr);
+                  }
+              }
+          }
+
+          document.title = hote.value;
+
+      };
+
+
+      function fetchAndProcessDataVers() {
+        fetch(`${baseHost}/status_vers`)
+        .then(function (response) {
+          return response.json()
+        })
+        .then(function (state) {
+          document
+          .querySelectorAll('.default-action_vers')
+          .forEach(el => {
+            updateValue(el, state[el.id], false)
+          })
+        })
+      }
+
+      fetch(`${baseHost}/status_vers`)
+        .then(function (response) {
+          return response.json()
+        })
+        .then(function (state) {
+          document
+            .querySelectorAll('.default-action_vers')
+            .forEach(el => {
+              updateValue(el, state[el.id], false)
+            })
+        })
+
+
+        function updateConfig(el) {
+            if (!el || !el.id) {
+                console.error("L'élément est invalide ou n'a pas d'identifiant.");
+                return;
+            }
+
+            let value;
+            switch (el.type) {
+                case 'checkbox':
+                    value = el.checked ? '1' : '0';
+                    break;
+                    case 'range':
+                    case 'number':
+                    case 'select-one':
+                      value = el.value;
+                      break;
+                case 'radio':
+                    if (el.checked) {
+                        value = el.value;
+                    } else {
+                        return;
+                    }
+                    break;
+                case 'button':
+                case 'submit':
+                    value = '1';
+                    break;
+                default:
+                    console.warn(`Type d élément non pris en charge: ${el.type}`);
+                    return;
+            }
+
+            if (value === undefined) {
+                console.error("La valeur est indéfinie pour l'élément:", el);
+                return;
+            }
+
+            sendData(el.name || el.id, value);
+        }
+
+
+      document
+        .querySelectorAll('.close')
+        .forEach(el => {
+          el.onclick = () => {
+            hide(el.parentNode)
+          }
+        })
+
+      fetch(`${baseHost}/status`)
+        .then(function (response) {
+          return response.json()
+        })
+        .then(function (state) {
+          document
+            .querySelectorAll('.default-action')
+            .forEach(el => {
+              if (el.type === 'radio') {
+                  const groupName = el.name;
+                  const groupValue = state[groupName];
+                  el.checked = (el.value === String(groupValue));
+              } else {
+                  updateValue(el, state[el.id], false);
+              }
+            })
+        })
+
+      const stillButton = document.getElementById('get-still')
+      const view_photo_container = document.getElementById('photo_container')
+      const view_photo = document.getElementById('photo')
+      const close_photo = document.getElementById('close_photo')
+      
+      stillButton.onclick = () => {
+        show(view_photo_container)
+        const timestamp = new Date().getTime();
+      view_photo.src = `${baseHost}/capture?timestamp=${timestamp}`;
+      }
+
+      close_photo.onclick = () => {
+        hide(view_photo_container)
+      }
+
+      const lastButton = document.getElementById('get-last')
+      const view_last_container = document.getElementById('last_container')
+      const view_last = document.getElementById('last')
+      const close_last = document.getElementById('close_last')
+      
+      lastButton.onclick = () => {
+        show(view_last_container)
+        const timestamp = new Date().getTime();
+      view_last.src = `${baseHost}/last_ph?timestamp=${timestamp}`;
+      }
+
+      close_last.onclick = () => {
+        hide(view_last_container)
+      }
+
+      const open_stream = document.getElementById('toggle_stream')
+      const view_stream_container = document.getElementById('stream_container')
+      const view_stream = document.getElementById('stream')
+      const close_stream = document.getElementById('close_stream')
+
+      const stop_stream = () => {
+        view_stream.src = '';
+        hide(view_stream_container);
+        open_stream.innerHTML = 'Start Stream'
+      }
+
+      const start_stream = () => {
+        view_stream.src = `${baseHost}/video_stream`
+        show(view_stream_container)
+        open_stream.innerHTML = 'Stop Stream'
+      }
+
+      close_stream.onclick = () => {
+        stop_stream()
+        hide(view_stream_container)
+      }
+
+      open_stream.onclick = () => {
+        const stream_Enabled = open_stream.innerHTML === 'Stop Stream'
+        if (stream_Enabled) {
+          stop_stream()
+        } else {
+          start_stream()
+        }
+      }
+
+      const open_stream_2 = document.getElementById('toggle_stream_2')
+      const view_stream_container_2 = document.getElementById('stream_container_2')
+      const view_stream_2 = document.getElementById('stream_2')
+      const close_stream_2 = document.getElementById('close_stream_2')
+
+      const stop_stream_2 = () => {
+        view_stream_2.src = '';
+        hide(view_stream_container_2);
+        open_stream_2.innerHTML = 'Start Stream Surveillance'
+      }
+
+      const start_stream_2 = () => {
+        view_stream_2.src = `${baseHost}/video_stream_2`
+        show(view_stream_container_2)
+        open_stream_2.innerHTML = 'Stop Stream Surveillance'
+      }
+
+      close_stream_2.onclick = () => {
+        stop_stream_2()
+        hide(view_stream_container_2)
+      }
+
+      open_stream_2.onclick = () => {
+        const stream_Enabled_2 = open_stream_2.innerHTML === 'Stop Stream Surveillance'
+        if (stream_Enabled_2) {
+          stop_stream_2()
+        } else {
+          start_stream_2()
+        }
+      }
+
+      const bouton_photo_telegram = document.getElementById('photo_telegram')
+      bouton_photo_telegram.onclick = () => {
+       updateConfig(bouton_photo_telegram)
+      }
+
+      const bouton_capture_psram_25 = document.getElementById('capture_psram_25')
+      bouton_capture_psram_25.onclick = () => {
+       updateConfig(bouton_capture_psram_25)
+      }
+
+      const bouton_capture_psram_max = document.getElementById('capture_psram_max')
+      bouton_capture_psram_max.onclick = () => {
+       updateConfig(bouton_capture_psram_max)
+      }
+
+      const bouton_photo_sd = document.getElementById('photo_sd')
+      bouton_photo_sd.onclick = () => {
+       updateConfig(bouton_photo_sd)
+      }
+
+      const Button_H = document.getElementById('bouton_h')
+      Button_H.onclick = () => {
+        updateConfig(Button_H)
+      }
+      
+      const Button_G = document.getElementById('bouton_g')
+      Button_G.onclick = () => {
+        updateConfig(Button_G)
+      }
+      
+      const Button_D = document.getElementById('bouton_d')
+      Button_D.onclick = () => {
+        updateConfig(Button_D)
+      }
+      
+      const Button_B = document.getElementById('bouton_b')
+      Button_B.onclick = () => {
+        updateConfig(Button_B)
+      }  
+     
+      const Button_Z = document.getElementById('bouton_z')
+      Button_Z.onclick = () => {
+        updateConfig(Button_Z)
+      }
+
+      const bouton_mode_nuit = document.getElementById('mode_nuit')
+      bouton_mode_nuit.onclick = () => {
+       updateConfig(bouton_mode_nuit)
+      }
+
+      const Button_restart = document.getElementById('restart')
+      Button_restart.onclick = () => {
+        window.location.href = baseHost + "/restart";
+      }
+
+      const Button_wifi_reset = document.getElementById('wifi_reset')
+      Button_wifi_reset.onclick = () => {
+        window.location.href = baseHost + "/wifi_reset";
+      }
+
+      const Button_max_fps = document.getElementById('max_fps')
+      Button_max_fps.onclick = () => {
+        updateConfig(Button_max_fps)
+      }
+
+      const Button_sombre = document.getElementById('sombre')
+      Button_sombre.onclick = () => {
+        updateConfig(sombre)
+      }
+
+      document
+        .querySelectorAll('.default-action')
+        .forEach(el => {
+          el.onchange = () => updateConfig(el)
+      })
+
+      document
+        .querySelectorAll('.default-action_vers')
+        .forEach(el => {
+          el.onchange = () => updateConfig(el)
+      })
+
+      const zoom = document.getElementById('zoom-group')
+      const zone = document.getElementById('zone-group')
+      const crop_x = document.getElementById('crop_x-group')
+      const crop_y = document.getElementById('crop_y-group')
+      const zoom_hr = document.getElementById('zoom_hr-group')
+      const framesize = document.getElementById('framesize')
+ 
+      framesize.onchange = () => {
+        updateConfig(framesize)
+        if( framesize.value == 8 || framesize.value == 11 || framesize.value == 15)
+        {
+          show(zoom_hr)
+        } else {
+          hide(zoom_hr)
+        }
+      }
+    })
+    </script>
+  </body>
+</html>
